@@ -100,7 +100,7 @@ bar1 = plt.bar(np.arange(len(y)), y, align='center', color='g')
 
 plt.xlabel('Rozmiary dwuwymiarowej tablicy')
 plt.ylabel('Liczba wyników fałszywie pozytywnych')
-for rect in bar1:
+for rect in bar1: #
     height = rect.get_height()
     plt.text(rect.get_x() + rect.get_width() / 2.0, height, f'{height:.0f}', ha='center', va='bottom')
 plt.tight_layout()
