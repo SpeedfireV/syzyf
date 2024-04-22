@@ -11,6 +11,30 @@ def get_columns(data):
 
     return columns
 
+def get_data(columns):
+    data = []
+    for i in range(8):
+        for column in columns:
+            data.append(column[i])
+
+    return data
+
+def get_table_parities(data):
+    row_parities = []
+    column_parities = []
+    # Rows
+    for i in range(8):
+        row_parities.append(data[i* 8:(i + 1) * 8].count(1) % 2)
+    for i in range(8):
+        column_bites = []
+        for bit in data[i::8]:
+            column_bites.append(bit)
+        column_parities.append(column_bites.count(1) % 2)
+    column_parities.extend(row_parities[::1])
+    return column_parities
+
+
+
 def slide_lines(columns):
     final_columns = []
     for pos, column in enumerate(columns):

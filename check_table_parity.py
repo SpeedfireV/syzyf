@@ -2,11 +2,10 @@ from table_display_8x8 import create_table
 
 
 def display_parities(data):
-    print(f"GOT {data}")
     new_data = []
-    for row in data:
-        for bit in row:
-            new_data.append(bit)
+    for i in range(8):
+        for column in data:
+            new_data.append(column[i])
     data = new_data
     rows: list[list[int]] = create_table(data)
     columns = [[] for i in range(8)]
