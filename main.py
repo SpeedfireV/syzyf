@@ -1,6 +1,6 @@
 from burst_error_generator import random_message, burst_error_generator
 from check_table_parity import display_parities
-from line_slider_8x8 import get_columns, slide_lines, get_data, get_table_parities
+from line_slider_8x8 import get_columns, slide_lines, get_data, get_table_info
 from table_display_8x8 import display_table, display_columns
 
 if __name__ == '__main__':
@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     slided_message = slide_lines(get_columns(message))
     print("CHECK PARITIES")
-    additional_bits = get_table_parities(get_data(slided_message))
+    additional_bits = get_table_info(get_data(slided_message))
     message_to_send = get_data(slided_message)
     message_to_send.extend(additional_bits)
     print(message_to_send)

@@ -10,12 +10,18 @@ def display_parities(data):
     rows: list[list[int]] = create_table(data)
     columns = [[] for i in range(8)]
     for row in rows:
-        parity = row.count(1) % 2
-        print(f"{row} | {parity}")
+        left_parity = row[:4].count(1) % 2
+        right_parity = row[4:].count(1) % 2
+        print(f"{left_parity} | {row} | {right_parity}")
         for pos, bit in enumerate(row):
             columns[pos].append(bit)
-    column_parities = []
+
+    top_column_parities = []
+    bottom_column_parities = []
     for column in columns:
-        column_parities.append(column.count(1) % 2)
-    print("--- Parity ---")
-    print(column_parities)
+        top_column_parities.append(column[:4].count(1) % 2)
+        bottom_column_parities.append(column[4:].count(1) % 2)
+    print("     --- Top Parity ---")
+    print(f"    {top_column_parities}")
+    print("     --- Bottom Parity ---")
+    print(f"    {bottom_column_parities}")

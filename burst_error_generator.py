@@ -14,7 +14,7 @@ def burst_error_generator(message):
     falsified_bits = []
     falsified_message = message[::1]
     for pos, letter in enumerate(message[burst_start:burst_start + burst_length + 1], burst_start):
-        if randint(0,1) == 1 or burst_start + burst_length == pos or burst_start == pos:
+        if randint(0,5) <=4 or burst_start + burst_length == pos or burst_start == pos:
             falsified_bits.append(pos)
             print(f"{pos} was falsified")
             if letter == 0:
