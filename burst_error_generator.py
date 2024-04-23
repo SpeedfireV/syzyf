@@ -10,11 +10,11 @@ def burst_error_generator(message):
     if 64 - burst_start < 8:
         burst_length = randint(0, 64 - burst_start)
     else:
-        burst_length = randint(1, 7)
+        burst_length = randint(2, 8)
     falsified_bits = []
     falsified_message = message[::1]
     for pos, letter in enumerate(message[burst_start:burst_start + burst_length + 1], burst_start):
-        if randint(0,5) <=2 or burst_start + burst_length == pos or burst_start == pos:
+        if randint(0,1) == 1 or burst_start + burst_length == pos or burst_start == pos:
             falsified_bits.append(pos)
             print(f"{pos} was falsified")
             if letter == 0:
@@ -39,3 +39,5 @@ def write_tests_to_file(amount):
         for pos, message in enumerate(informations):
             file.write(''.join(str(e) for e in message) + "\n")
             file.write(' '.join(str(e) for e in changed_bits[pos])+ "\n")
+
+write_tests_to_file(10000)
