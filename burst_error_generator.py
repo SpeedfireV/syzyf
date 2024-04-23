@@ -39,6 +39,3 @@ def write_tests_to_file(amount):
         for pos, message in enumerate(informations):
             file.write(''.join(str(e) for e in message) + "\n")
             file.write(' '.join(str(e) for e in changed_bits[pos])+ "\n")
-
-
-write_tests_to_file(1000)
