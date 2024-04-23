@@ -1,7 +1,7 @@
 from table_display_8x8 import create_table
 
 
-def check_table_parity(data):
+def check_table_parity(data, debugMode):
     new_data = []
     for i in range(8):
         for column in data:
@@ -16,7 +16,8 @@ def check_table_parity(data):
         right_parity = row[4:].count(1) % 2
         left_parities.append(left_parity)
         right_parities.append(right_parity)
-        print(f"{left_parity} | {row} | {right_parity}")
+        if debugMode:
+            print(f"{left_parity} | {row} | {right_parity}")
         for pos, bit in enumerate(row):
             columns[pos].append(bit)
 
@@ -25,8 +26,9 @@ def check_table_parity(data):
     for column in columns:
         top_column_parities.append(column[:4].count(1) % 2)
         bottom_column_parities.append(column[4:].count(1) % 2)
-    print("     --- Top Parity ---")
-    print(f"    {top_column_parities}")
-    print("     --- Bottom Parity ---")
-    print(f"    {bottom_column_parities}")
+    if debugMode:
+        print("     --- Top Parity ---")
+        print(f"    {top_column_parities}")
+        print("     --- Bottom Parity ---")
+        print(f"    {bottom_column_parities}")
     return left_parities, right_parities, top_column_parities, bottom_column_parities
