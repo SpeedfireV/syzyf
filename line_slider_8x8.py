@@ -1,5 +1,3 @@
-
-
 def get_columns(data):
     columns = []
 
