@@ -72,24 +72,25 @@ def check_parity_bits(hamming_table):
             if int(hamming_table[x][y]) == 1:
                 Allcounter += 1
 
-    bladlokalny += str(Allcounter % 2)
+    bladpozzero = str(Allcounter % 2)
+    return bladlokalny, bladpozzero
 
-    return bladlokalny
-
-def wyliczeniepozycjibledu(wartoscbitowa):
-    # Sprawdzenie, czy łańcuch zawiera 7 znaków
-    if len(wartoscbitowa) != 5:
+def wyliczeniepozycjibledu(wartoscbitowa, bladpozzero):
+    # Sprawdzenie, czy łańcuch zawiera 5 znaków
+    if len(wartoscbitowa) != 4:
         raise ValueError("Input string must contain 5 characters.")
 
     # Konwersja łańcucha binarnego na liczbę dziesiętną
     pozycjabledu = int(wartoscbitowa, 2)
-    if pozycjabledu != 0:
+    if pozycjabledu != 0 and bladpozzero != 1:
         print(f'Błąd na pozycji: {pozycjabledu}')
+    elif pozycjabledu != 0 and bladpozzero == 1:
+        print('Błąd na pozycji: 0')
     else:
-        print('Błąd nie występuje')
+        print('Nie wystąpił żaden błąd')
 
 zmienne = read_lines_to_variables('encodedhamming.txt')
 for bits in zmienne:
     hamming_table = create_hamming_table(bits)
-    pozycjebledow = check_parity_bits(hamming_table)
-    wyliczeniepozycjibledu(pozycjebledow)
+    pozycjebledow, bladzero = check_parity_bits(hamming_table)
+    wyliczeniepozycjibledu(pozycjebledow, bladzero)
