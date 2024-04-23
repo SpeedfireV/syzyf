@@ -22,3 +22,23 @@ def burst_error_generator(message):
             else:
                 falsified_message[pos] = 0
     return falsified_message, falsified_bits, len(falsified_bits)
+
+def write_tests_to_file(amount):
+    informations = []
+    changed_bits = []
+    for i in range(amount):
+        while True:
+            message = random_message()
+            if message in informations:
+                continue
+            error_message, falsified_bits, _ = burst_error_generator(message)
+            informations.append(error_message)
+            changed_bits.append(falsified_bits)
+            break
+    with open("tests.txt", "w") as file:
+        for pos, message in enumerate(informations):
+            file.write(''.join(str(e) for e in message) + "\n")
+            file.write(' '.join(str(e) for e in changed_bits[pos])+ "\n")
+
+
+write_tests_to_file(1000)
