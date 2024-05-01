@@ -17,12 +17,12 @@ def get_data(columns):
 
     return data
 
-def get_table_info(data):
+def get_table_info(data, numberOfRows):
     row_parities = []
     column_parities = []
     amount_of_ones = [] # >=2 na 4 pierwszych bitach >=2 na 4 ostatnich bitach
     # Rows
-    for i in range(8):
+    for i in range(numberOfRows):
         first_four = data[i* 8:(i + 1) * 8 - 4].count(1)
         one_count = data[i* 8:(i + 1) * 8].count(1)
         if first_four >= 2:
@@ -47,17 +47,23 @@ def get_table_info(data):
 
 
 
-def slide_lines(columns):
+def slide_lines(columns, numberOfRows):
     final_columns = []
+    if len(columns[0]) == 8:
+        for pos, column in enumerate(columns):
+            new_column = column[::1]
+
+            new_column.extend([0 for i in range(numberOfRows - 8)])
+            columns[pos] = new_column
     for pos, column in enumerate(columns):
-        jump = pos
+        jump = pos * 2
         new_poses = []
         for i in range(len(column)):
             if i + jump > len(column) - 1:
                 new_poses.append(jump - (len(column) - i))
             else:
                 new_poses.append(i + jump)
-        new_column = [0 for i in range(8)]
+        new_column = [0 for i in range(numberOfRows)]
         for i, new_pos in enumerate(new_poses):
             new_column[new_pos] = column[i]
         final_columns.append(new_column)

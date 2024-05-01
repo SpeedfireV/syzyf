@@ -25,11 +25,30 @@ if __name__ == '__main__':
     # check_table_parity(slide_lines(get_columns(falsified_message)))
     with open('tests.txt') as tests:
         working_amount = 0
-        amount_of_tests = 10000
+        amount_of_tests = 50000
         not_defined = 0
         more_than_one_answer = 0
         correction_percentage = 0
         amount_of_errors = 0
+        # Custom Test
+        test_data = "0000000000000000000000000000000000000000000000000000000000000000"
+        # 10110101
+        # 00000011
+        # 01101011
+        # 00110010
+        # 11111110
+        # 11000001
+        # 01010011
+        # 01000111
+        # test_errors = "22 23 24 26 27 28 29"
+        # test_data = [eval(i) for i in test_data]
+        # falsified_bits = [eval(i) for i in test_errors.split(" ")]
+        # message = test_data
+        # encoded_message = encoder(message, False)
+        # transmitted_info = transmission(encoded_message, False, falsified_bits)
+        # resultant_falsified_bits = decoder(transmitted_info, 16,False)
+        # Tests
+        #
         for i in range(amount_of_tests):
             test = list(tests.readline().strip())
             test = [eval(i) for i in test]
@@ -39,7 +58,7 @@ if __name__ == '__main__':
             message = test
             encoded_message = encoder(message, False)
             transmitted_info = transmission(encoded_message, False, falsified_bits)
-            resultant_falsified_bits = decoder(transmitted_info, False)
+            resultant_falsified_bits = decoder(transmitted_info, 16, False)
             if resultant_falsified_bits == falsified_bits:
                 working_amount += 1
                 correction_percentage += len(falsified_bits)
