@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # check_table_parity(slide_lines(get_columns(falsified_message)))
     with open('tests.txt') as tests:
         working_amount = 0
-        amount_of_tests = 50000
+        amount_of_tests = 30000
         not_defined = 0
         more_than_one_answer = 0
         correction_percentage = 0
@@ -44,9 +44,9 @@ if __name__ == '__main__':
         # test_data = [eval(i) for i in test_data]
         # falsified_bits = [eval(i) for i in test_errors.split(" ")]
         # message = test_data
-        # encoded_message = encoder(message, False)
+        # encoded_message = encoder(message, True)
         # transmitted_info = transmission(encoded_message, False, falsified_bits)
-        # resultant_falsified_bits = decoder(transmitted_info, 16,False)
+        # resultant_falsified_bits = decoder(transmitted_info, 16,True)
         # Tests
         #
         for i in range(amount_of_tests):
@@ -77,5 +77,5 @@ if __name__ == '__main__':
                   f"\nAdditionally {not_defined} of answers to the tests were not defined which is {not_defined * 100 / amount_of_tests}%"
                   f"\nCorrection of every error bit is: {correction_percentage * 100 / amount_of_errors}%")
 
-
-
+        #
+        #

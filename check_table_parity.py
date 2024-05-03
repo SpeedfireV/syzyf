@@ -21,14 +21,10 @@ def check_table_parity(data, numberOfRows,debugMode):
         for pos, bit in enumerate(row):
             columns[pos].append(bit)
 
-    top_column_parities = []
-    bottom_column_parities = []
+    column_parities = []
     for column in columns:
-        top_column_parities.append(column[:numberOfRows // 2].count(1) % 2)
-        bottom_column_parities.append(column[numberOfRows // 2:].count(1) % 2)
+        column_parities.append(column.count(1) % 2)
     if debugMode:
         print("     --- Top Parity ---")
-        print(f"    {top_column_parities}")
-        print("     --- Bottom Parity ---")
-        print(f"    {bottom_column_parities}")
-    return left_parities, right_parities, top_column_parities, bottom_column_parities
+        print(f"    {column_parities}")
+    return left_parities, right_parities, column_parities
