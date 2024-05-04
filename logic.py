@@ -1,6 +1,5 @@
-from burst_error_generator import burst_error_generator, random_message
 from check_table_parity import check_table_parity
-from line_slider_8x8 import slide_lines, get_columns, get_table_info
+from line_slider_8x8 import slide_lines, get_columns
 from burst_error_generator import burst_error_generator as beg
 
 def encoder(data, debugMode):
@@ -10,9 +9,6 @@ def encoder(data, debugMode):
         for i in range(8):
             print(data[i:i + 8])
     slided_message = slide_lines(get_columns(data[::1]), numberOfRows=16)
-    # print(data)
-    # print(slide_lines(get_columns(data[::1])))
-    # print(get_table_info(slided_message))
     if debugMode:
         print("SLIDED MESSAGE WITH PARITY CHECKS!:")
         additional_bits = check_table_parity(slided_message, 16,debugMode )
@@ -167,9 +163,6 @@ def decoder(received_message, numberOfRows, debugMode):
                 if not filtered_potential_error_packages.count(errors) > 0:
                     filtered_potential_error_packages.append(errors)
 
-    # print(total_number_of_errors)
-    # print(total_row_lines)
-    #return sorted(acceptable_error_poses), sorted(potentially_wrong_bits),len(potential_error_packages), filtered_potential_error_packages, f"Lacking row lines? {not total_row_lines == total_number_of_errors}"
     if debugMode:
         print("ERRORS OCCURED ON BITS:")
         if len(filtered_potential_error_packages) == 0:
@@ -182,20 +175,3 @@ def decoder(received_message, numberOfRows, debugMode):
         return filtered_potential_error_packages[0]
     else:
         return []
-
-if __name__ == "__main__":
-    message = random_message()
-    # print(message)
-    encoded_message = encoder(message, False)
-    transmitted_info = transmission(encoded_message, False)
-    decoder(transmitted_info, False)
-
-
-
-
-
-
-
-
-
-

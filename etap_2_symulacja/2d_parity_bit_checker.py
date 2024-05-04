@@ -4,7 +4,7 @@ from itertools import product
 import sympy
 from sympy import divisors
 
-from charts.bar_chart import make_bar_chart
+from etap_2_symulacja.charts.bar_chart import make_bar_chart
 
 
 def get_dividers(number):
