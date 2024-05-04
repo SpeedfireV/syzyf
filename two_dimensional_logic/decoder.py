@@ -1,40 +1,6 @@
-from check_table_parity import check_table_parity
-from line_slider_8x8 import slide_lines, get_columns
-from burst_error_generator import burst_error_generator as beg
-
-
-def encoder(data, debug_mode):
-    if debug_mode:
-        print("#ENCODER#")
-        print("ORIGINAL MESSAGE:")
-        for i in range(8):
-            print(data[i:i + 8])
-    slided_message = slide_lines(get_columns(data[::1]), number_of_rows=16)
-    if debug_mode:
-        print("SLIDED MESSAGE WITH PARITY CHECKS!:")
-        additional_bits = check_table_parity(slided_message, 16, debug_mode)
-    else:
-        additional_bits = check_table_parity(slided_message, 16, debug_mode)
-    whole_message = [data]
-    whole_message.extend(additional_bits)
-    return whole_message
-
-
-def transmission(sended_message, debug_mode, selected_error_bits):
-    if debug_mode:
-        print("#TRANSMISSION#")
-    information_bits = sended_message[0][::1]
-    if selected_error_bits is not None:
-        for bit in selected_error_bits:
-            if information_bits[bit] == 1:
-                information_bits[bit] = 0
-            else:
-                information_bits[bit] = 1
-        sended_message[0] = information_bits
-        return sended_message
-    falsified_information = beg(information_bits)[0]
-    sended_message[0] = falsified_information
-    return sended_message
+from table_parities import get_table_parities
+from data_formatter import get_columns
+from line_slider import slide_lines
 
 
 def decoder(received_message, number_of_rows, debug_mode):
@@ -47,9 +13,9 @@ def decoder(received_message, number_of_rows, debug_mode):
     received_bottom_column_parities = received_message[3]
     if debug_mode:
         print("SLIDED RECIEVED MESSAGE WITH PARITY CHECK:")
-        decoded_parities = check_table_parity(slided_message, number_of_rows, debug_mode)
+        decoded_parities = get_table_parities(slided_message, number_of_rows, debug_mode)
     else:
-        decoded_parities = check_table_parity(slided_message, number_of_rows, debug_mode)
+        decoded_parities = get_table_parities(slided_message, number_of_rows, debug_mode)
     decoded_row_parities = decoded_parities[0]
     decoded_top_column_parities = decoded_parities[1]
     decoded_bottom_column_parities = decoded_parities[2]
@@ -155,7 +121,7 @@ def decoder(received_message, number_of_rows, debug_mode):
                 else:
                     basic_table[error] = 1
 
-            fixed_table_info = check_table_parity(slide_lines(get_columns(basic_table), 16), 16, False)
+            fixed_table_info = get_table_parities(slide_lines(get_columns(basic_table), 16), 16, False)
 
             fixed_row_parities = fixed_table_info[0]
             fixed_top_column_parities = fixed_table_info[1]

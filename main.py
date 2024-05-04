@@ -1,4 +1,6 @@
-from logic import encoder, transmission, decoder
+from two_dimensional_logic.decoder import decoder
+from two_dimensional_logic.encoder import encoder
+from two_dimensional_logic.transmission import transmission
 
 if __name__ == '__main__':
     with open('tests.txt') as tests:
@@ -19,8 +21,6 @@ if __name__ == '__main__':
         # resultant_falsified_bits = decoder(transmitted_info, 16,True)
 
         # Tests
-        length = 0
-        amount = 0
         not_working = []
         for i in range(amount_of_tests):
 
@@ -41,8 +41,6 @@ if __name__ == '__main__':
             else:
                 print(falsified_bits)
                 not_working.append(falsified_bits)
-                amount += 1
-                length += len(falsified_bits)
                 fixed_errors = 0
                 for proposed_error_position in resultant_falsified_bits:
                     if falsified_bits.count(proposed_error_position) > 0:
@@ -55,6 +53,5 @@ if __name__ == '__main__':
                 f"Working on {working_amount} out of {amount_of_tests} which is {working_amount * 100 / amount_of_tests}%"
                 f"\nAdditionally {not_defined} of answers to the tests were not defined which is {not_defined * 100 / amount_of_tests}%"
                 f"\nCorrection of every error bit is: {correction_percentage * 100 / amount_of_errors}%")
-            # f"\nNot working were: {length / amount} of this length")
             for i in not_working:
                 print(i)

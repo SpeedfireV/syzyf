@@ -1,7 +1,7 @@
-from table_display_8x8 import create_table
+from data_formatter import create_table
 
 
-def check_table_parity(data, number_of_rows, debug_mode):
+def get_table_parities(data, number_of_rows, debug_mode):
     new_data = []
     for i in range(number_of_rows):
         for column in data:

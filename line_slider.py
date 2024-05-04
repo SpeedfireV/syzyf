@@ -1,15 +1,3 @@
-def get_columns(data):
-    columns = []
-
-    for pos, bit in enumerate(data):
-        if len(columns) < pos % 8 + 1:
-            columns.append([bit])
-        else:
-            columns[pos % 8].append(bit)
-
-    return columns
-
-
 def slide_lines(columns, number_of_rows):
     final_columns = []
     if len(columns[0]) == 8:
