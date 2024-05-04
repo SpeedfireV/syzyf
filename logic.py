@@ -42,30 +42,23 @@ def decoder(received_message, numberOfRows, debugMode):
         print("#DECODER#")
     information_bits = received_message[0]
     slided_message = slide_lines(get_columns(information_bits), numberOfRows)
-    received_left_parities = received_message[1]
-    received_right_parities = received_message[2]
-    received_column_parities = received_message[3]
+    received_row_parities = received_message[1]
+    received_column_parities = received_message[2]
     if debugMode:
         print("SLIDED RECIEVED MESSAGE WITH PARITY CHECK:")
         decoded_parities = check_table_parity(slided_message, numberOfRows,debugMode)
     else:
         decoded_parities = check_table_parity(slided_message, numberOfRows, debugMode)
-    decoded_left_parities = decoded_parities[0]
-    decoded_right_parities = decoded_parities[1]
-    decoded_column_parities = decoded_parities[2]
-    left_parity_errors = []
-    right_parity_errors = []
+    decoded_row_parities = decoded_parities[0]
+    decoded_column_parities = decoded_parities[1]
+    row_parity_errors = []
     column_parity_errors = []
     # Calcute Parities
     for i in range(numberOfRows):
-        if received_left_parities[i] != decoded_left_parities[i]:
-            left_parity_errors.append(1)
+        if received_row_parities[i] != decoded_row_parities[i]:
+            row_parity_errors.append(1)
         else:
-            left_parity_errors.append(0)
-        if received_right_parities[i] != decoded_right_parities[i]:
-            right_parity_errors.append(1)
-        else:
-            right_parity_errors.append(0)
+            row_parity_errors.append(0)
         if i < 8:
             if received_column_parities[i] != decoded_column_parities[i]:
                 column_parity_errors.append(1)
@@ -76,37 +69,30 @@ def decoder(received_message, numberOfRows, debugMode):
 
     total_number_of_errors = column_parity_errors.count(1)
 
-    total_row_lines = 0
-
-
-
-    for row_pos, row_value in enumerate(left_parity_errors):
-        amount_of_errors = 0
-        if row_value == 1:
-            total_row_lines += 1
-            amount_of_errors += 1
-            for col_pos, col_value in enumerate(column_parity_errors[:4]):
-                if col_value == 1:
+    for col_pos, col_value in enumerate(column_parity_errors):
+        if col_value == 1:
+            searched_frames = []
+            overflow = False
+            overflow_value = 16 - (col_pos * 2)
+            if overflow_value < 8:
+                overflow = True
+            for row_pos, row_value in enumerate(row_parity_errors[col_pos * 2:8 + col_pos * 2], col_pos * 2):
+                if row_value == 1:
                     slided_error_pos = row_pos * 8 + col_pos
-                    jump = col_pos * 2 * 8
+                    jump = col_pos * 2 * 8 # Going back number of lines
                     potential_error_pos = slided_error_pos - jump
                     if potential_error_pos < 0:
                         potential_error_pos = numberOfRows * 8 + potential_error_pos
                     potentially_wrong_bits.append(potential_error_pos)
-    for row_pos, row_value in enumerate(right_parity_errors):
-        amount_of_errors = 0
-        if row_value == 1:
-            total_row_lines += 1
-            amount_of_errors += 1
-            for col_pos, col_value in enumerate(column_parity_errors[4:], 4):
-                if col_value == 1:
-                    slided_error_pos = row_pos * 8 + col_pos
-                    jump = col_pos * 2 * 8
-                    potential_error_pos = slided_error_pos - jump
-                    if potential_error_pos < 0:
-                        potential_error_pos = numberOfRows * 8 + potential_error_pos
-                    potentially_wrong_bits.append(potential_error_pos)
-
+            if overflow:
+                for row_pos, row_value in enumerate(row_parity_errors[0: 8- (16 -(8 + col_pos * 2))]):
+                    if row_value == 1:
+                        slided_error_pos = row_pos * 8 + col_pos
+                        jump = col_pos * 2 * 8  # Going back number of lines
+                        potential_error_pos = slided_error_pos - jump
+                        if potential_error_pos < 0:
+                            potential_error_pos = numberOfRows * 8 + potential_error_pos
+                        potentially_wrong_bits.append(potential_error_pos)
     acceptable_error_poses = []
     potentially_wrong_bits = sorted(potentially_wrong_bits)
     print(potentially_wrong_bits)
@@ -156,10 +142,9 @@ def decoder(received_message, numberOfRows, debugMode):
             fixed_table_info = check_table_parity(slide_lines(get_columns(basic_table), 16), 16, False)
 
 
-            fixed_left_parities = fixed_table_info[0]
-            fixed_right_parities = fixed_table_info[1]
-            fixed_column_parities = fixed_table_info[2]
-            if fixed_left_parities == received_left_parities and fixed_right_parities == received_right_parities and fixed_column_parities == received_column_parities:
+            fixed_row_parities = fixed_table_info[0]
+            fixed_column_parities = fixed_table_info[1]
+            if fixed_row_parities == received_row_parities and fixed_column_parities == received_column_parities:
                 if not filtered_potential_error_packages.count(errors) > 0:
                     filtered_potential_error_packages.append(errors)
 

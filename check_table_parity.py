@@ -9,22 +9,23 @@ def check_table_parity(data, numberOfRows,debugMode):
     data = new_data
     rows: list[list[int]] = create_table(data, numberOfRows)
     columns = [[] for i in range(8)]
-    left_parities = []
-    right_parities = []
+    row_parities = []
     for row in rows:
-        left_parity = row[:4].count(1) % 2
-        right_parity = row[4:].count(1) % 2
-        left_parities.append(left_parity)
-        right_parities.append(right_parity)
+        row_parity = row.count(1) % 2
+        row_parities.append(row_parity)
         if debugMode:
-            print(f"{left_parity} | {row} | {right_parity}")
+            print(f"{row_parity} | {row}")
         for pos, bit in enumerate(row):
             columns[pos].append(bit)
 
-    column_parities = []
+    top_column_parity = []
+    bottom_column_parity = []
     for column in columns:
-        column_parities.append(column.count(1) % 2)
+        top_column_parity.append(column[0:numberOfRows // 2].count(1) % 2)
+        bottom_column_parity.append(column[numberOfRows // 2:].count(1) % 2)
     if debugMode:
-        print("     --- Top Parity ---")
-        print(f"    {column_parities}")
-    return left_parities, right_parities, column_parities
+        print("     --- Top Column Parity ---")
+        print(f"    {top_column_parity}")
+        print("     --- Bottom Column Parity ---")
+        print(f"    {bottom_column_parity}")
+    return row_parities, top_column_parity, bottom_column_parity
