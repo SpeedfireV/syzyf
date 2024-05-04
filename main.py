@@ -1,5 +1,5 @@
-
 from logic import encoder, transmission, decoder
+
 if __name__ == '__main__':
     with open('tests.txt') as tests:
         working_amount = 0
@@ -51,9 +51,10 @@ if __name__ == '__main__':
 
         #
         else:
-            print(f"Working on {working_amount} out of {amount_of_tests} which is {working_amount * 100 / amount_of_tests}%"
-                  f"\nAdditionally {not_defined} of answers to the tests were not defined which is {not_defined * 100 / amount_of_tests}%"
-                  f"\nCorrection of every error bit is: {correction_percentage * 100 / amount_of_errors}%")
-                  #f"\nNot working were: {length / amount} of this length")
+            print(
+                f"Working on {working_amount} out of {amount_of_tests} which is {working_amount * 100 / amount_of_tests}%"
+                f"\nAdditionally {not_defined} of answers to the tests were not defined which is {not_defined * 100 / amount_of_tests}%"
+                f"\nCorrection of every error bit is: {correction_percentage * 100 / amount_of_errors}%")
+            # f"\nNot working were: {length / amount} of this length")
             for i in not_working:
                 print(i)

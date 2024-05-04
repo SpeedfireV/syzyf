@@ -18,9 +18,8 @@ def get_dividers(number):
     return new_dividors
 
 
-
 def false_parity_check_results(number_of_bits, burst_size):
-    sample_bits = [0 for i in range(number_of_bits)]
+    sample_bits = [0 for _ in range(number_of_bits)]
     combinations = []
     for i in product([0, 1], repeat=burst_size):
         if i.count(1) != 1:
@@ -42,8 +41,8 @@ def false_parity_check_results(number_of_bits, burst_size):
     for divider in new_dividers:
         # with 64 zero bytes every column and row has to be equal to 1
         total_number_of_fake_combinations = 0
-        print(f"Total number of fake combinations for {divider}x{number_of_bits//divider}:")
-        size_data = [f"{divider}x{number_of_bits//divider}"]
+        print(f"Total number of fake combinations for {divider}x{number_of_bits // divider}:")
+        size_data = [f"{divider}x{number_of_bits // divider}"]
         for combination in final_combinations:
             row_values = []
             column_values = []
@@ -72,13 +71,10 @@ def false_parity_check_results(number_of_bits, burst_size):
         size_info.append(size_data)
         print(total_number_of_fake_combinations)
 
-
-
-
-
-
-    print(f"Liczba wszystkich fałszywie pozytywnych kombinacji dla burst-errora długości max. {burst_size}  - {len(final_combinations)}")
+    print(
+        f"Liczba wszystkich fałszywie pozytywnych kombinacji dla burst-errora długości max. {burst_size}  - {len(final_combinations)}")
     return size_info
+
 
 if __name__ == "__main__":
     max_bit_error = []
