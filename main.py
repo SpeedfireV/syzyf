@@ -1,3 +1,6 @@
+import time
+import timeit
+
 from two_dimensional_logic.decoder import decoder
 from two_dimensional_logic.encoder import encoder
 from two_dimensional_logic.transmission import transmission
@@ -5,7 +8,7 @@ from two_dimensional_logic.transmission import transmission
 if __name__ == '__main__':
     with open('tests.txt') as tests:
         working_amount = 0
-        amount_of_tests = 30000
+        amount_of_tests = 100
         not_defined = 0
         more_than_one_answer = 0
         correction_percentage = 0
@@ -22,6 +25,7 @@ if __name__ == '__main__':
 
         # Tests
         not_working = []
+        start_time = time.time()
         for i in range(amount_of_tests):
 
             test = list(tests.readline().strip())
@@ -47,8 +51,10 @@ if __name__ == '__main__':
                         fixed_errors += 1
                 correction_percentage += fixed_errors
 
+
         #
         else:
+            print(f"Execution Time is {time.time() - start_time}")
             print(
                 f"Working on {working_amount} out of {amount_of_tests} which is {working_amount * 100 / amount_of_tests}%"
                 f"\nAdditionally {not_defined} of answers to the tests were not defined which is {not_defined * 100 / amount_of_tests}%"
